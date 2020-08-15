@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import { Form, Button, Col, Row, Card } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
 import removeImg from 'assets/images/remove.svg'
 import sortDownImg from 'assets/images/sort_down.svg'
 import sortUpImg from 'assets/images/sort_up.svg'
 
-export const Field = ({ index, item }) => {
-    const [data, setData] = useState(item)
+export const Field = ({ item, updateField, deleteField }) => {
+    const properties = useSelector(state => state.properties.data)
 
     const handleChange = (e) => {
-        console.log('e: ', e)
+        const property = e.target.value
+        const { orderTypeDefault: order } = properties.find(item => item.name == property)
+        updateField({ ...item, order, property })
+    }
+
+    const updateOrderParam = () => {
+        const order = item.order === 'ASC' ? 'DESC' : 'ASC'
+        updateField({ ...item, order })
     }
 
     return (
@@ -19,24 +27,29 @@ export const Field = ({ index, item }) => {
                     <Card bg="secondary" text="white" body>
                         <Row>
                             <Col xs={2} className="d-flex justify-content-center align-items-center">
-                                {data.priority + 1}
+                                {item.priority}
                             </Col>
                             <Col>
-                                <Form.Control onChange={handleChange} as="select">
-                                    <option>Balance</option>
-                                    <option>Cash Balance</option>
+                                <Form.Control onChange={handleChange} value={item.property} as="select">
+                                    <option value={undefined}>Choose...</option>
+                                    {properties.map(item => (
+                                        <option key={item.name} value={item.name}>{item.title}</option>
+                                    ))}
                                 </Form.Control>
                             </Col>
                             <Col xs={2} className="d-flex align-items-center">
-                                <Button variant="secondary">
-                                    <img src={sortDownImg} alt="sortDown" />
+                                <Button onClick={updateOrderParam} variant="secondary">
+                                    {item.order === 'ASC' ?
+                                        <img src={sortDownImg} alt="sortDown" /> :
+                                        <img src={sortUpImg} alt="sortUp" />
+                                    }
                                 </Button>
                             </Col>
                         </Row>
                     </Card>
                 </Col>
                 <Col xs={2} className="d-flex justify-content-center align-items-center">
-                    <Button variant="danger" className="d-flex justify-content-center align-items-center">
+                    <Button onClick={() => deleteField(item.priority)} variant="danger" className="d-flex justify-content-center align-items-center">
                         <img src={removeImg} alt="remove" />
                     </Button>
                 </Col>

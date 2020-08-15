@@ -6,11 +6,28 @@ const AddPropertyForm = () => {
     const [fields, setFields] = useState([])
 
     const AddField = () => {
+        const index = fields.length + 1
+
         setFields(prevState => [...prevState, {
-            priority: undefined,
+            priority: index,
             property: undefined,
             order: 'ASC'
         }])
+    }
+
+    const updateField = (newField) => {
+        const updatedFields = fields.map(field => {
+            if (field.priority === newField.priority) {
+                field = newField
+            }
+            return field
+        })
+
+        setFields(updatedFields)
+    }
+
+    const deleteField = (priority) => {
+        setFields(fields.filter(item => item.priority != priority))
     }
 
     return (
@@ -28,7 +45,9 @@ const AddPropertyForm = () => {
                 </Form.Row>
             </Form.Group>
 
-            {fields.map((item, index) => <Field key={index} item={{ ...item, priority: index }} />)}
+            {fields.map(item => (
+                <Field key={item.priority} item={item} updateField={updateField} deleteField={deleteField} />
+            ))}
 
             <Form.Group>
                 <Button onClick={AddField} variant="outline-success">Add property</Button>
