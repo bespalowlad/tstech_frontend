@@ -15,7 +15,7 @@ function App() {
             <AddPropertyForm />
           </Row>
           <Row>
-            <OutputData />
+            {/* <OutputData /> */}
           </Row>
         </Container>
       </div>
