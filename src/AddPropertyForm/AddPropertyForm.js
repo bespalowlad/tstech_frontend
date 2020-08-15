@@ -1,33 +1,31 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Form, Button, Col } from 'react-bootstrap'
 import { Field } from '../shared'
+import { addField, updateField, deleteField } from '../actions'
 
-const AddPropertyForm = () => {
-    const [fields, setFields] = useState([])
+const AddPropertyForm = ({ currentDataForm }) => {
+    const dispatch = useDispatch()
 
-    const AddField = () => {
-        const index = fields.length + 1
-
-        setFields(prevState => [...prevState, {
-            priority: index,
-            property: undefined,
-            order: 'ASC'
-        }])
+    const handleAddField = () => {
+        const index = currentDataForm.length + 1
+        dispatch(addField(index))
     }
 
-    const updateField = (newField) => {
-        const updatedFields = fields.map(field => {
-            if (field.priority === newField.priority) {
-                field = newField
+    const handleUpdateField = (newField) => {
+        const newFields = currentDataForm.map(item => {
+            if (item.priority === newField.priority) {
+                return { ...newField }
             }
-            return field
+            return item
         })
 
-        setFields(updatedFields)
+        dispatch(updateField(newFields))
     }
 
-    const deleteField = (priority) => {
-        setFields(fields.filter(item => item.priority != priority))
+    const handleDeleteField = (priority) => {
+        const newFields = currentDataForm.filter(item => item.priority !== priority)
+        dispatch(updateField(newFields))
     }
 
     return (
@@ -45,12 +43,12 @@ const AddPropertyForm = () => {
                 </Form.Row>
             </Form.Group>
 
-            {fields.map(item => (
-                <Field key={item.priority} item={item} updateField={updateField} deleteField={deleteField} />
+            {currentDataForm.map(item => (
+                <Field key={item.priority} item={item} updateField={handleUpdateField} deleteField={handleDeleteField} />
             ))}
 
             <Form.Group>
-                <Button onClick={AddField} variant="outline-success">Add property</Button>
+                <Button onClick={handleAddField} variant="outline-success">Add property</Button>
             </Form.Group>
 
             <Form.Group>

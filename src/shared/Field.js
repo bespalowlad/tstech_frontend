@@ -31,7 +31,7 @@ export const Field = ({ item, updateField, deleteField }) => {
                             </Col>
                             <Col>
                                 <Form.Control onChange={handleChange} value={item.property} as="select">
-                                    <option value={undefined}>Choose...</option>
+                                    <option value={'empty'} disabled>Choose...</option>
                                     {properties.map(item => (
                                         <option key={item.name} value={item.name}>{item.title}</option>
                                     ))}

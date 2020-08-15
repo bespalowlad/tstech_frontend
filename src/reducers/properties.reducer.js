@@ -1,3 +1,6 @@
+import { ADD_FIELD, UPDATE_FIELD, DELETE_FIELD } from '../constants'
+import { addField, updateField, deleteField } from 'actions'
+
 const initialState = {
     data: JSON.parse(`[{
         "name": "affiliate",
@@ -34,11 +37,31 @@ const initialState = {
         "title": "Trader points",
         "orderTypeDefault": "DESC",
         "priority": 0
-    }]`)
+    }]`),
+    currentDataForm: []
 }
 
 export const propertiesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case ADD_FIELD:
+            return {
+                ...state,
+                currentDataForm: [
+                    ...state.currentDataForm,
+                    {
+                        priority: action.index,
+                        property: 'empty',
+                        order: 'ASC'
+                    }
+                ]
+            }
+
+        case UPDATE_FIELD:
+            return {
+                ...state,
+                currentDataForm: action.fields
+            }
+
         default:
             return state
     }
