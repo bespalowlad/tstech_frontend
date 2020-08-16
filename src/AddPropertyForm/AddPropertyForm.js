@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Form, Button, Col } from 'react-bootstrap'
 import { Field } from '../shared'
-import { addField, updateField, deleteField } from '../actions'
+import { addField, updateField, toggleData } from '../actions'
 
 const AddPropertyForm = ({ currentDataForm }) => {
     const dispatch = useDispatch()
+    const properties = useSelector(state => state.properties.data)
+
+    useEffect(() => {
+        dispatch(toggleData(false))
+    }, [currentDataForm, dispatch])
 
     const handleAddField = () => {
         const index = currentDataForm.length + 1
@@ -28,8 +33,23 @@ const AddPropertyForm = ({ currentDataForm }) => {
         dispatch(updateField(newFields))
     }
 
+    const isDisableAddButton = () => {
+        return currentDataForm &&
+            currentDataForm.some(field => field.property === 'empty') ||
+            currentDataForm.length === properties.length
+    }
+
+    const isDisalbleSubmitButton = () => {
+        return currentDataForm.length === 0
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        dispatch(toggleData(true))
+    }
+
     return (
-        <Form style={{ width: '100%' }}>
+        <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Row>
                     <Col xs={2}></Col>
@@ -48,11 +68,11 @@ const AddPropertyForm = ({ currentDataForm }) => {
             ))}
 
             <Form.Group>
-                <Button onClick={handleAddField} variant="outline-success">Add property</Button>
+                <Button onClick={handleAddField} variant="outline-success" disabled={isDisableAddButton()}>Add property</Button>
             </Form.Group>
 
             <Form.Group>
-                <Button variant="primary" type="submit">Sort</Button>
+                <Button variant="primary" type="submit" disabled={isDisalbleSubmitButton()}>Sort</Button>
             </Form.Group>
         </Form>
     )

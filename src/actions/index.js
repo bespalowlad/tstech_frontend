@@ -1,5 +1,6 @@
 export {
     addField,
     updateField,
-    deleteField
+    deleteField,
+    toggleData,
 } from './properties.actions'

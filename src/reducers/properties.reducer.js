@@ -1,5 +1,4 @@
-import { ADD_FIELD, UPDATE_FIELD, DELETE_FIELD } from '../constants'
-import { addField, updateField, deleteField } from 'actions'
+import { ADD_FIELD, UPDATE_FIELD, TOGGLE_DATA } from '../constants'
 
 const initialState = {
     data: JSON.parse(`[{
@@ -38,7 +37,8 @@ const initialState = {
         "orderTypeDefault": "DESC",
         "priority": 0
     }]`),
-    currentDataForm: []
+    currentDataForm: [],
+    dataSubmitted: false
 }
 
 export const propertiesReducer = (state = initialState, action) => {
@@ -60,6 +60,12 @@ export const propertiesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentDataForm: action.fields
+            }
+
+        case TOGGLE_DATA:
+            return {
+                ...state,
+                dataSubmitted: action.payload
             }
 
         default:

@@ -7,6 +7,7 @@ import OutputData from '../OutputData/OutputData'
 
 function App() {
   const currentDataForm = useSelector(state => state.properties.currentDataForm)
+  const dataSubmitted = useSelector(state => state.properties.dataSubmitted)
 
   return (
 
@@ -16,7 +17,7 @@ function App() {
           <AddPropertyForm currentDataForm={currentDataForm} />
         </Row>
         <Row>
-          {/* <OutputData /> */}
+          {dataSubmitted && <OutputData currentDataForm={currentDataForm} />}
         </Row>
       </Container>
     </div>

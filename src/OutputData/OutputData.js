@@ -1,7 +1,7 @@
 import React from 'react'
 
-const OutputData = () => (
-    <div>OutputData</div>
+const OutputData = ({ currentDataForm }) => (
+    <div>{JSON.stringify(currentDataForm)}</div>
 )
 
 export default OutputData

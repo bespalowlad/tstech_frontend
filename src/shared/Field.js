@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Button, Col, Row, Card } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
@@ -8,16 +8,21 @@ import sortUpImg from 'assets/images/sort_up.svg'
 
 export const Field = ({ item, updateField, deleteField }) => {
     const properties = useSelector(state => state.properties.data)
+    const dataForm = useSelector(state => state.properties.currentDataForm)
 
     const handleChange = (e) => {
         const property = e.target.value
-        const { orderTypeDefault: order } = properties.find(item => item.name == property)
+        const { orderTypeDefault: order } = properties.find(item => item.name === property)
         updateField({ ...item, order, property })
     }
 
     const updateOrderParam = () => {
         const order = item.order === 'ASC' ? 'DESC' : 'ASC'
         updateField({ ...item, order })
+    }
+
+    const isDisableAttr = (item) => {
+        return dataForm.some(field => field.property === item.name)
     }
 
     return (
@@ -33,7 +38,7 @@ export const Field = ({ item, updateField, deleteField }) => {
                                 <Form.Control onChange={handleChange} value={item.property} as="select">
                                     <option value={'empty'} disabled>Choose...</option>
                                     {properties.map(item => (
-                                        <option key={item.name} value={item.name}>{item.title}</option>
+                                        <option key={item.name} value={item.name} disabled={isDisableAttr(item)}>{item.title}</option>
                                     ))}
                                 </Form.Control>
                             </Col>
