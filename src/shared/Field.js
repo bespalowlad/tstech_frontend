@@ -42,7 +42,7 @@ export const Field = ({ item, updateField, deleteField }) => {
                                     ))}
                                 </Form.Control>
                             </Col>
-                            <Col xs={2} className="d-flex align-items-center">
+                            <Col xs={2} className="d-flex align-items-center justify-content-center">
                                 <Button onClick={updateOrderParam} variant="secondary">
                                     {item.order === 'ASC' ?
                                         <img src={sortDownImg} alt="sortDown" /> :

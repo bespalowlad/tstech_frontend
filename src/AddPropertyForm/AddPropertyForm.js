@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Form, Button, Col } from 'react-bootstrap'
+import { Form, Button, Col, Card, Row } from 'react-bootstrap'
 import { Field } from '../shared'
 import { addField, updateField, toggleData } from '../actions'
 
@@ -48,8 +48,12 @@ const AddPropertyForm = ({ currentDataForm }) => {
         dispatch(toggleData(true))
     }
 
+    const dataFormList = currentDataForm.map(item => (
+        <Field key={item.priority} item={item} updateField={handleUpdateField} deleteField={handleDeleteField} />
+    ))
+
     return (
-        <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
+        <Form style={{ width: '100%' }} className="mt-3" onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Row>
                     <Col xs={2}></Col>
@@ -57,15 +61,18 @@ const AddPropertyForm = ({ currentDataForm }) => {
                         <Form.Text as={'h5'}>Properties</Form.Text>
                     </Col>
                     <Col xs={2}>
-                        <Form.Text as={'h5'}>Order</Form.Text>
+                        <Form.Text as={'h5'} className="text-center">Order</Form.Text>
                     </Col>
                     <Col xs={2}></Col>
                 </Form.Row>
             </Form.Group>
 
-            {currentDataForm.map(item => (
-                <Field key={item.priority} item={item} updateField={handleUpdateField} deleteField={handleDeleteField} />
-            ))}
+            {currentDataForm.length ?
+                dataFormList :
+                <Card body className="mb-3">
+                    You have no properties. Please, add them
+                </Card>
+            }
 
             <Form.Group>
                 <Button onClick={handleAddField} variant="outline-success" disabled={isDisableAddButton()}>Add property</Button>
