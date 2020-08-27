@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Button, Col, Row, Card } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import removeImg from 'assets/images/remove.svg'
 import sortDownImg from 'assets/images/sort_down.svg'
@@ -61,4 +62,14 @@ export const Field = ({ item, updateField, deleteField }) => {
             </Form.Row>
         </Form.Group >
     )
+}
+
+Field.propTypes = {
+    item: PropTypes.shape({
+        priority: PropTypes.number,
+        property: PropTypes.string,
+        order: PropTypes.string
+    }).isRequired,
+    updateField: PropTypes.func.isRequired,
+    deleteField: PropTypes.func.isRequired
 }

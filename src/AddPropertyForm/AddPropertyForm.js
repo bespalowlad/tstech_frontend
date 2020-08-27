@@ -4,6 +4,7 @@ import { Form, Button, Col, Card, Row } from 'react-bootstrap'
 import { Field } from '../shared'
 import { addField, updateField, toggleData } from '../actions'
 import { CSSTransition, TransitionGroup, SwitchTransition } from 'react-transition-group'
+import PropTypes from 'prop-types'
 import 'assets/styles/transitions.css'
 
 const AddPropertyForm = ({ currentDataForm }) => {
@@ -91,6 +92,10 @@ const AddPropertyForm = ({ currentDataForm }) => {
             </Form.Group>
         </Form>
     )
+}
+
+AddPropertyForm.propTypes = {
+    currentDataForm: PropTypes.array.isRequired
 }
 
 export default AddPropertyForm
