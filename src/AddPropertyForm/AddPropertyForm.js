@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Form, Button, Col, Card, Row } from 'react-bootstrap'
 import { Field } from '../shared'
 import { addField, updateField, toggleData } from '../actions'
+import { CSSTransition, TransitionGroup, SwitchTransition } from 'react-transition-group'
+import 'assets/styles/transitions.css'
 
 const AddPropertyForm = ({ currentDataForm }) => {
     const dispatch = useDispatch()
@@ -48,8 +50,10 @@ const AddPropertyForm = ({ currentDataForm }) => {
         dispatch(toggleData(true))
     }
 
-    const dataFormList = currentDataForm.map(item => (
-        <Field key={item.priority} item={item} updateField={handleUpdateField} deleteField={handleDeleteField} />
+    const dataFormList = currentDataForm.map((item, index) => (
+        <CSSTransition key={item.priority} timeout={300} classNames="fade">
+            <Field item={item} updateField={handleUpdateField} deleteField={handleDeleteField} />
+        </CSSTransition>
     ))
 
     return (
@@ -68,10 +72,14 @@ const AddPropertyForm = ({ currentDataForm }) => {
             </Form.Group>
 
             {currentDataForm.length ?
-                dataFormList :
-                <Card body className="mb-3">
-                    You have no properties. Please, add them
+                <TransitionGroup component={null} appear>
+                    {dataFormList}
+                </TransitionGroup> :
+                <CSSTransition in appear timeout={300} classNames="fade">
+                    <Card body className="mb-3">
+                        You have no properties. Please, add them
                 </Card>
+                </CSSTransition>
             }
 
             <Form.Group>
