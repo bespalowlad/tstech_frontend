@@ -1,6 +1,6 @@
 import { ADD_FIELD, UPDATE_FIELD, TOGGLE_DATA } from '../constants'
 
-const initialState = {
+export const initialState = {
     data: JSON.parse(`[{
         "name": "affiliate",
         "title": "Affiliate",
