@@ -28,10 +28,6 @@ describe('Actions', () => {
         expect(actions.updateField(fields)).toEqual(expectedAction)
     })
 
-    it('Delete field', () => {
-        //
-    })
-
     it('Toggle data', () => {
         const payload = true
         const expectedAction = {
